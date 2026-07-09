@@ -11,6 +11,10 @@ REQ-DSC-005,order_total debe estar en (0; 10000],TC-DSC-INV-003,Partición invá
 REQ-MTX-001,La matriz cross-browser cubre todos los pares exigibles de parámetros,TC-PW-001,Pairwise reduce el producto cartesiano respetando restricciones,Pruebas combinatorias (pairwise),tests/test_pairwise.py,PASS,
 REQ-MTX-001,La matriz cross-browser cubre todos los pares exigibles de parámetros,TC-PW-002,Gap analysis: ningún par exigible queda sin cubrir tras complementar,Pruebas combinatorias (pairwise),tests/test_pairwise.py,PASS,DEF-001
 DEF-001,allpairspy con filter_func sacrifica pares válidos (chromium/firefox × macos) — mitigado con pairwise_matrix.py,,,,design_lab/pairwise_matrix.py,CERRADO,
-REQ-LOG-001,POR COMPLETAR (Ejercicio individual S1 — login de SauceDemo),,,,,PENDIENTE,
-REQ-LOG-002,POR COMPLETAR (Ejercicio individual S1 — login de SauceDemo),,,,,PENDIENTE,
-REQ-LOG-003,POR COMPLETAR (Ejercicio individual S1 — login de SauceDemo),,,,,PENDIENTE,
+REQ-LOG-001,login exitoso de SauceDemo,TC-LOG-EP-001,Login exitoso con credenciales válidas: usuario valido ->standard_user y contraseña válida->secret_sauce,Partición de equivalencias,tests/test_acceptance.py,PASS,
+REQ-LOG-001,login exitoso de SauceDemo,TC-LOG-EP-002,Login exitoso con credenciales válidas: usuario con problemas para compra: problem_user y contraseña válida: secret_sauce,Partición de equivalencias,tests/test_acceptance.py,PASS,
+REQ-LOG-001,login exitoso de SauceDemo,TC-LOG-EP-003,Login exitoso con credenciales válidas: usuario con error visual: visual_user y contraseña válida: secret_sauce,Partición de equivalencias,tests/test_acceptance.py,PASS,
+REQ-LOG-001,login exitoso de SauceDemo,TC-LOG-EP-004,Login exitoso con credenciales válidas: usuario con error para compra: error_user y contraseña válida: secret_sauce,Partición de equivalencias,tests/test_acceptance.py,PASS,
+REQ-LOG-002,login fallido de SauceDemo,TC-LOG-BVA-001,Login fallido con credenciales inválidas: usuario bloqueado: locked_out_user y contraseña válida: secret_sauce,Análisis de valores límite,tests/test_acceptance.py,PASS,
+REQ-LOG-002,login fallido de SauceDemo,TC-LOG-BVA-002,Login fallido con credenciales inválidas: usuario válido: standard_user y contraseña inválida: password_sauce,Análisis de valores límite,tests/test_acceptance.py,PASS,
+REQ-LOG-002,login fallido de SauceDemo,TC-LOG-BVA-003,Login fallido con credenciales inválidas: usuario Inválido: new_user y contraseña válida: secret_sauce,Análisis de valores límite,tests/test_acceptance.py,PASS,
