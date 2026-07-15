@@ -24,7 +24,6 @@ class CompleteCheckout:
         """Orquesta el flujo de checkout usando las abilities del Actor."""
         page = actor.ability_to(BrowseTheWeb).page
         
-        InventoryPage(page).add_to_cart("Sauce Labs Backpack")
         InventoryPage(page).go_to_cart()
         CartPage(page).proceed_to_checkout()
         CheckoutPage(page).fill_shipping(
