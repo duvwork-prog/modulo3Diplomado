@@ -1,0 +1,309 @@
+{
+  "info": {
+    "_postman_id": "b06f4b6e-b738-4130-8942-08732cd8c97a",
+    "name": "RETO_S3_DuvierMartinez",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "54853900",
+    "_collection_link": "https://go.postman.co/collection/54853900-b06f4b6e-b738-4130-8942-08732cd8c97a?source=collection_link"
+  },
+  "item": [
+    {
+      "name": "01-GET USERS",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test('Status es 200 OK', function () {\r",
+              "    pm.response.to.have.status(200);\r",
+              "});\r",
+              "\r",
+              "pm.test('Responde en menos de 2 segundos', function () {\r",
+              "    pm.expect(pm.response.responseTime).to.be.below(2000);\r",
+              "});\r",
+              "\r",
+              "pm.test('Devuelve la lista completa de 10 users', function () {\r",
+              "    const posts = pm.response.json();\r",
+              "    pm.expect(posts).to.be.an('array');\r",
+              "    pm.expect(posts).to.have.lengthOf(10);\r",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{base_url}}/users",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "users"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "02-GET USER1",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test('Status es 200 OK', function () {\r",
+              "    pm.response.to.have.status(200);\r",
+              "});\r",
+              "\r",
+              "// Contrato de la API: si la estructura cambia, este test falla\r",
+              "const getSchema = {\r",
+              "    type: 'object',\r",
+              "    required: ['id', 'name', 'username', 'email'],\r",
+              "    properties: {\r",
+              "        id: { type: 'integer' },\r",
+              "        name: { type: 'string' },\r",
+              "        username: { type: 'string' },\r",
+              "        email: { type: 'string' }\r",
+              "    }\r",
+              "};\r",
+              "\r",
+              "pm.test('El GET cumple el contrato (JSON Schema)', function () {\r",
+              "    pm.response.to.have.jsonSchema(getSchema);\r",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{base_url}}/users/1",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "users",
+            "1"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "03-POST USERS",
+      "event": [
+        {
+          "listen": "prerequest",
+          "script": {
+            "exec": [
+              "// Se ejecuta ANTES de enviar el request: genera un nombre único\r",
+              "const name = Date.now();\r",
+              "pm.collectionVariables.set('dynamic_name', name);\r",
+              "console.log('Nombre generado:', name);"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        },
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test('Status es 201 Created', function () {\r",
+              "    pm.response.to.have.status(201);\r",
+              "});\r",
+              "\r",
+              "pm.test('El nombre devuelto es el que enviamos', function () {\r",
+              "    const enviado = pm.collectionVariables.get('dynamic_name');\r",
+              "    pm.expect(pm.response.json().name).to.eql(enviado);\r",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [],
+        "url": {
+          "raw": "{{base_url}}/users",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "users"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "04-PUT USERS1",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test('Status es 200 OK', function () {\r",
+              "    pm.response.to.have.status(200);\r",
+              "});\r",
+              "\r",
+              "pm.test('El nombre quedó actualizado', function () {\r",
+              "    pm.expect(pm.response.json().name).to.eql('Duvier Martinez');\r",
+              "});\r",
+              "\r",
+              "pm.test('El nombre de usuario quedó actualizado', function () {\r",
+              "    pm.expect(pm.response.json().username).to.eql('Duvwork');\r",
+              "});\r",
+              "\r",
+              "pm.test('El email quedó actualizado', function () {\r",
+              "    pm.expect(pm.response.json().email).to.include('Duvwork@april.biz');\r",
+              "});\r",
+              "\r",
+              "pm.test('La dirección quedó actualizado', function () {\r",
+              "    pm.expect(pm.response.json().address.street).to.include('Avenue Light');\r",
+              "});\r",
+              "\r",
+              "pm.test('El numero de apartamento quedó actualizado', function () {\r",
+              "    pm.expect(pm.response.json().address.suite).to.include('Apt. 557');\r",
+              "});\r",
+              "\r",
+              "pm.test('La ciudad quedó actualizado', function () {\r",
+              "    pm.expect(pm.response.json().address.city).to.include('Brisbourne');\r",
+              "});\r",
+              "\r",
+              "pm.test('El zipcode quedó actualizado', function () {\r",
+              "    pm.expect(pm.response.json().address.zipcode).to.include('5598-3874');\r",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        },
+        {
+          "listen": "prerequest",
+          "script": {
+            "packages": {},
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "auth": {
+          "type": "noauth"
+        },
+        "method": "PUT",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"id\": 1,\r\n    \"name\": \"Duvier Martinez\",\r\n    \"username\": \"Duvwork\",\r\n    \"email\": \"Duvwork@april.biz\",\r\n    \"address\": {\r\n        \"street\": \"Avenue Light\",\r\n        \"suite\": \"Apt. 557\",\r\n        \"city\": \"Brisbourne\",\r\n        \"zipcode\": \"5598-3874\",\r\n        \"geo\": {\r\n            \"lat\": \"-37.3159\",\r\n            \"lng\": \"81.1496\"\r\n        }\r\n    },\r\n    \"phone\": \"1-770-736-8031 x56442\",\r\n    \"website\": \"hildegard.org\",\r\n    \"company\": {\r\n        \"name\": \"Romaguera-Crona\",\r\n        \"catchPhrase\": \"Multi-layered client-server neural-net\",\r\n        \"bs\": \"harness real-time e-markets\"\r\n    }\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{base_url}}/users/1",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "users",
+            "1"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "05-DELETE user1",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test('Status es 200 OK', function () {\r",
+              "    pm.response.to.have.status(200);\r",
+              "});\r",
+              "\r",
+              "pm.test('El cuerpo de la respuesta es un objeto vacío', function () {\r",
+              "    pm.expect(pm.response.json()).to.eql({});\r",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "url": {
+          "raw": "{{base_url}}/users/1",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "users",
+            "1"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "06-GET user 999999",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test('Status es 404 OK', function () {\r",
+              "    pm.response.to.have.status(404);\r",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{base_url}}/users/999999",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "users",
+            "999999"
+          ]
+        }
+      },
+      "response": []
+    }
+  ],
+  "variable": [
+    {
+      "key": "dynamic_name",
+      "value": ""
+    }
+  ]
+}
