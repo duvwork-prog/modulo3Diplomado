@@ -106,7 +106,7 @@
           "script": {
             "exec": [
               "// Se ejecuta ANTES de enviar el request: genera un nombre único\r",
-              "const name = Date.now();\r",
+              "const name = 'Prueba QA - ' + Date.now();\r",
               "pm.collectionVariables.set('dynamic_name', name);\r",
               "console.log('Nombre generado:', name);"
             ],
@@ -137,6 +137,15 @@
       "request": {
         "method": "POST",
         "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"name\": \"{{dynamic_name}}\",\r\n    \"username\": \"USUARIO\",\r\n    \"email\": \"user@mail.com\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
         "url": {
           "raw": "{{base_url}}/users",
           "host": [
